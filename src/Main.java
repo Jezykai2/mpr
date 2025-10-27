@@ -5,10 +5,11 @@ public class Main {
     public static void main(String[] args) {
         EmployeeService service = new EmployeeService();
 
-        service.addEmployee(new Employee("Jan", "Kowalski", "jan.k@techcorp.com", "TechCorp", Position.PREZES, 27000));
-        service.addEmployee(new Employee("Anna", "Nowak", "anna.n@techcorp.com", "TechCorp", Position.MANAGER, 13000));
-        service.addEmployee(new Employee("Marek", "Wiśniewski", "marek.w@devsoft.com", "DevSoft", Position.PROGRAMISTA, 9000));
-        service.addEmployee(new Employee("Ola", "Zielińska", "ola.z@techcorp.com", "TechCorp", Position.STAZYSTA, 3200));
+        service.addEmployee(new Employee("Alex", "Rogowski", "alex.rog@neuronlabs.com", "NeuronLabs", Position.PREZES, 25500));
+        service.addEmployee(new Employee("Julia", "Tarnowska", "julia.t@quantumsoft.pl", "QuantumSoft", Position.WICEPREZES, 18200));
+        service.addEmployee(new Employee("Mateusz", "Urban", "m.urban@aicode.io", "AICode", Position.MANAGER, 12100));
+        service.addEmployee(new Employee("Sara", "Chmiel", "sara.chm@pixelwave.com", "PixelWave", Position.PROGRAMISTA, 8600));
+        service.addEmployee(new Employee("Dominik", "Szulc", "dominik.sz@neuronlabs.com", "NeuronLabs", Position.STAZYSTA, 3100));
 
         service.printAllEmployees();
 
