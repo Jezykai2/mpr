@@ -10,10 +10,37 @@ public class Employee {
     private double salary;
 
     public Employee(String firstName, String lastName, String email, String companyName, Position position, double salary) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.companyName = companyName;
+        if (firstName == null || firstName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Imię nie może być puste.");
+        }
+
+        if (lastName == null || lastName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nazwisko nie może być puste.");
+        }
+
+        if (email == null || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("Adres email nie może być pusty.");
+        }
+        if (!email.contains("@") || !email.contains(".")) {
+            throw new IllegalArgumentException("Adres email jest niepoprawny: " + email);
+        }
+
+        if (companyName == null || companyName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nazwa firmy nie może być pusta.");
+        }
+
+        if (position == null) {
+            throw new IllegalArgumentException("Stanowisko nie może być null.");
+        }
+
+        if (salary < 0) {
+            throw new IllegalArgumentException("Wynagrodzenie nie może być ujemne.");
+        }
+
+        this.firstName = firstName.trim();
+        this.lastName = lastName.trim();
+        this.email = email.trim().toLowerCase();
+        this.companyName = companyName.trim();
         this.position = position;
         this.salary = salary;
     }
