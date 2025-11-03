@@ -1,35 +1,62 @@
-import model.*;
+import model.Employee;
+import model.ImportSummary;
+import model.CompanyStatistics;
 import service.EmployeeService;
+import service.ImportService;
+import service.ApiService;
+
+import java.util.List;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        EmployeeService service = new EmployeeService();
 
-        service.addEmployee(new Employee("Alex", "Rogowski", "alex.rog@neuronlabs.com", "NeuronLabs", Position.PREZES, 25500));
-        service.addEmployee(new Employee("Julia", "Tarnowska", "julia.t@quantumsoft.pl", "QuantumSoft", Position.WICEPREZES, 18200));
-        service.addEmployee(new Employee("Mateusz", "Urban", "m.urban@aicode.io", "AICode", Position.MANAGER, 12100));
-        service.addEmployee(new Employee("Sara", "Chmiel", "sara.chm@pixelwave.com", "PixelWave", Position.PROGRAMISTA, 8600));
-        service.addEmployee(new Employee("Dominik", "Szulc", "dominik.sz@neuronlabs.com", "NeuronLabs", Position.STAZYSTA, 3100));
+        EmployeeService employeeService = new EmployeeService();
+        ImportService importService = new ImportService(employeeService);
+        ApiService apiService = new ApiService();
 
-        service.printAllEmployees();
+        try {
+            System.out.println("Import z CSV");
+            ImportSummary summary = importService.importFromCsv("employees.csv");
 
-        System.out.println("\nPracownicy z firmy TechCorp:");
-        service.findByCompany("TechCorp").forEach(System.out::println);
+            System.out.println("Zaimportowano: " + summary.getImportedCount());
+            if (!summary.getErrors().isEmpty()) {
+                System.out.println("\nBłędy importu:");
+                for (String err : summary.getErrors()) {
+                    System.out.println(" - " + err);
+                }
+            }
 
-        System.out.println("\nSortowanie alfabetyczne po nazwisku:");
-        service.sortByLastName().forEach(System.out::println);
+            System.out.println("\nPobieranie danych z API");
 
-        System.out.println("\nGrupowanie po stanowisku:");
-        service.groupByPosition().forEach((pos, list) ->
-                System.out.println(pos + " -> " + list.size() + " pracowników"));
+            List<Employee> apiEmployees = apiService.fetchEmployeesFromApi("https://jsonplaceholder.typicode.com/users");
 
-        System.out.println("\nLiczba pracowników na stanowisku:");
-        service.countByPosition().forEach((pos, count) ->
-                System.out.println(pos + ": " + count));
+            for (Employee e : apiEmployees) {
+                employeeService.addEmployee(e);
+            }
+            System.out.println("Pobrano " + apiEmployees.size() + " pracowników z API.");
 
-        System.out.println("\nŚrednie wynagrodzenie: " + service.getAverageSalary() + " zł");
+            System.out.println("\nWalidacja wynagrodzeń");
+            List<Employee> lowSalary = employeeService.validateSalaryConsistency();
+            if (lowSalary.isEmpty()) {
+                System.out.println("Wynagrodzenia są zgodne.");
+            } else {
+                System.out.println("Pracownicy z wynagrodzeniem poniżej stawki:");
+                for (Employee e : lowSalary) {
+                    System.out.println(" - " + e.getFirstName() + " " + e.getLastName() + " (" + e.getPosition() + ")");
+                }
+            }
 
-        service.getHighestPaidEmployee().ifPresent(emp ->
-                System.out.println("\nNajlepiej opłacany: " + emp));
+            System.out.println("\nStatystyki firm");
+            Map<String, CompanyStatistics> stats = employeeService.getCompanyStatistics();
+            for (Map.Entry<String, CompanyStatistics> entry : stats.entrySet()) {
+                System.out.println("Firma: " + entry.getKey());
+                System.out.println(entry.getValue());
+                System.out.println("---------------------------");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

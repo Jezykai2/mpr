@@ -94,4 +94,53 @@ public class EmployeeService {
         }
         return Optional.of(maxEmp);
     }
+
+    public List<Employee> validateSalaryConsistency() {
+        List<Employee> result = new ArrayList<>();
+        for (Employee e : employees) {
+            double base = e.getPosition().getBaseSalary();
+            if (e.getSalary() < base) {
+                result.add(e);
+            }
+        }
+        return result;
+    }
+
+    public Map<String, model.CompanyStatistics> getCompanyStatistics() {
+        Map<String, List<Employee>> grouped = new HashMap<>();
+
+        for (Employee e : employees) {
+            String company = e.getCompanyName();
+            if (!grouped.containsKey(company)) {
+                grouped.put(company, new ArrayList<Employee>());
+            }
+            grouped.get(company).add(e);
+        }
+
+        Map<String, model.CompanyStatistics> stats = new HashMap<>();
+        for (String company : grouped.keySet()) {
+            List<Employee> list = grouped.get(company);
+            int count = list.size();
+            double sum = 0.0;
+            Employee highest = null;
+            double maxSalary = Double.MIN_VALUE;
+
+            for (Employee e : list) {
+                sum += e.getSalary();
+                if (highest == null || e.getSalary() > maxSalary) {
+                    highest = e;
+                    maxSalary = e.getSalary();
+                }
+            }
+
+            double avg = count == 0 ? 0.0 : sum / count;
+            String highestFullName = highest == null ? null : highest.getFirstName() + " " + highest.getLastName();
+
+            model.CompanyStatistics cs = new model.CompanyStatistics(company, count, avg, highestFullName);
+            stats.put(company, cs);
+        }
+
+        return stats;
+    }
+
 }
