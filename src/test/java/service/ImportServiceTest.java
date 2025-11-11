@@ -1,7 +1,6 @@
 package service;
 
 import org.example.model.ImportSummary;
-import org.example.model.Position;
 import org.example.service.EmployeeService;
 import org.example.service.ImportService;
 import org.junit.jupiter.api.Test;
@@ -14,10 +13,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ImportServiceTest {
 
+    // Pomocnicza metoda – tworzy nową instancję ImportService z pustym EmployeeService
     private ImportService createImportService() {
         return new ImportService(new EmployeeService());
     }
 
+    // Pomocnicza metoda – tworzy tymczasowy plik CSV z podaną treścią
     private Path createTempCsv(String content) throws IOException {
         Path tempFile = Files.createTempFile("employees", ".csv");
         Files.writeString(tempFile, content);
@@ -26,20 +27,25 @@ class ImportServiceTest {
 
     @Test
     void testEmptyFileReturnsError() throws IOException {
+        // Tworzymy pusty plik CSV
         Path file = createTempCsv("");
+
+        // Importujemy dane – powinien pojawić się błąd "Plik jest pusty"
         ImportSummary summary = createImportService().importFromCsv(file.toString());
 
-        assertEquals(0, summary.getImportedCount());
-        assertFalse(summary.getErrors().isEmpty());
+        assertEquals(0, summary.getImportedCount()); // nic nie zaimportowano
+        assertFalse(summary.getErrors().isEmpty());  // lista błędów nie jest pusta
         assertTrue(summary.getErrors().get(0).contains("Plik jest pusty"));
     }
 
     @Test
     void testInvalidLineFormat() throws IOException {
+        // Plik zawiera linię z za małą liczbą pól
         String content = "first,last,email,company,position,salary\n" +
-                "Jan,Kowalski"; // za mało pól
+                "Jan,Kowalski"; // tylko 2 pola zamiast 6
         Path file = createTempCsv(content);
 
+        // Import powinien zgłosić błąd formatu
         ImportSummary summary = createImportService().importFromCsv(file.toString());
         assertEquals(0, summary.getImportedCount());
         assertTrue(summary.getErrors().get(0).contains("nieprawidłowa liczba pól"));
@@ -47,10 +53,12 @@ class ImportServiceTest {
 
     @Test
     void testUnknownPosition() throws IOException {
+        // Plik zawiera nieznane stanowisko "NIEZNANE"
         String content = "first,last,email,company,position,salary\n" +
                 "Jan,Kowalski,jan@example.com,TechCorp,NIEZNANE,10000";
         Path file = createTempCsv(content);
 
+        // Import powinien zgłosić błąd "Nieznane stanowisko"
         ImportSummary summary = createImportService().importFromCsv(file.toString());
         assertEquals(0, summary.getImportedCount());
         assertTrue(summary.getErrors().get(0).contains("Nieznane stanowisko"));
@@ -58,10 +66,12 @@ class ImportServiceTest {
 
     @Test
     void testInvalidSalary() throws IOException {
+        // Plik zawiera niepoprawną wartość wynagrodzenia ("abc" zamiast liczby)
         String content = "first,last,email,company,position,salary\n" +
                 "Jan,Kowalski,jan@example.com,TechCorp,MANAGER,abc";
         Path file = createTempCsv(content);
 
+        // Import powinien zgłosić błąd "Nieprawidłowe wynagrodzenie"
         ImportSummary summary = createImportService().importFromCsv(file.toString());
         assertEquals(0, summary.getImportedCount());
         assertTrue(summary.getErrors().get(0).contains("Nieprawidłowe wynagrodzenie"));
@@ -69,11 +79,13 @@ class ImportServiceTest {
 
     @Test
     void testSuccessfulImport() throws IOException {
+        // Plik zawiera dwóch poprawnych pracowników
         String content = "first,last,email,company,position,salary\n" +
                 "Jan,Kowalski,jan@example.com,TechCorp,MANAGER,12000\n" +
                 "Anna,Nowak,anna@example.com,TechCorp,PROGRAMISTA,8000";
         Path file = createTempCsv(content);
 
+        // Import powinien zakończyć się sukcesem – 2 pracowników dodanych, brak błędów
         ImportSummary summary = createImportService().importFromCsv(file.toString());
         assertEquals(2, summary.getImportedCount());
         assertTrue(summary.getErrors().isEmpty());
