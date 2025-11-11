@@ -1,7 +1,0 @@
-firstName,lastName,email,company,position,salary
-Adam,Kowalski,adam.kowalski@example.com,CodeNest,PROGRAMISTA,6800
-Ewa,Nowak,ewa.nowak@example.com,CodeNest,MANAGER,11500
-Tomasz,Zieliński,tomasz.zielinski@example.com,AppForge,TESTER,5200
-Magda,Wójcik,magda.wojcik@example.com,AppForge,PROGRAMISTA,4700
-Nieznany,Użytkownik,nieznany.uzytkownik@x,BrakFirmy,UNKNOWN,2500k
-Karolina,Wiśniewska,karolina.wisniewska@example.com,DataFlow,PROGRAMISTA,-200
