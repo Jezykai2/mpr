@@ -32,8 +32,9 @@ public class CompanyStatistics {
     @Override
     public String toString() {
         return "Firma: " + companyName +
-                " | Pracowników: " + employeeCount +
-                " | Średnie wynagrodzenie: " + String.format("%.2f", averageSalary) + " zł" +
-                " | Najwyżej opłacony: " + (highestPaidFullName == null ? "-" : highestPaidFullName);
+                ", Pracowników: " + employeeCount +
+                ", Średnie wynagrodzenie: " + averageSalary +
+                ", Najlepiej opłacany: " + highestPaidFullName;
     }
+
 }

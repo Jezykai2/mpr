@@ -1,5 +1,6 @@
 package org.example.service;
 
+import org.example.model.CompanyStatistics;
 import org.example.model.Employee;
 import org.example.model.Position;
 
@@ -106,7 +107,7 @@ public class EmployeeService {
         return result;
     }
 
-    public Map<String, org.example.model.CompanyStatistics> getCompanyStatistics() {
+    public Map<String, CompanyStatistics> getCompanyStatistics() {
         Map<String, List<Employee>> grouped = new HashMap<>();
 
         for (Employee e : employees) {
@@ -117,7 +118,7 @@ public class EmployeeService {
             grouped.get(company).add(e);
         }
 
-        Map<String, org.example.model.CompanyStatistics> stats = new HashMap<>();
+        Map<String, CompanyStatistics> stats = new HashMap<>();
         for (String company : grouped.keySet()) {
             List<Employee> list = grouped.get(company);
             int count = list.size();
@@ -136,7 +137,7 @@ public class EmployeeService {
             double avg = count == 0 ? 0.0 : sum / count;
             String highestFullName = highest == null ? null : highest.getFirstName() + " " + highest.getLastName();
 
-            org.example.model.CompanyStatistics cs = new org.example.model.CompanyStatistics(company, count, avg, highestFullName);
+            CompanyStatistics cs = new CompanyStatistics(company, count, avg, highestFullName);
             stats.put(company, cs);
         }
 

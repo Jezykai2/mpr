@@ -35,6 +35,14 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JUnit5 Test Class" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -43,25 +51,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.ApiServiceTest.executor": "Run",
-    "Gradle.CompanyStatisticsTest.testCompanyStatisticsStoresDataCorrectly.executor": "Run",
-    "Gradle.EmployeeServiceTest.executor": "Run",
-    "Gradle.EmployeeServiceTest.testAddDuplicateEmployeeByEmail.executor": "Run",
-    "Gradle.ImportServiceTest.testEmptyFileReturnsError.executor": "Run",
-    "Gradle.untitled3 [:org.example.Main.main()].executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "onboarding.tips.debug.path": "E:/1/szkl/java/untitled3/src/main/java/org/example/Main.java",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.ApiServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ApiServiceTest.testFetchEmployeesFromApi_connectionErrorThrowsApiException.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CompanyStatisticsTest.testCompanyStatisticsStoresDataCorrectly.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CompanyStatisticsTest.testToStringContainsExpectedInformation (1).executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CompanyStatisticsTest.testToStringContainsExpectedInformation.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.EmployeeServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.EmployeeServiceTest.testAddDuplicateEmployeeByEmail.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ImportServiceTest.testEmptyFileReturnsError.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ImportSummaryTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ImportSummaryTest.testToStringWithErrors.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ImportSummaryTest.testToStringWithNoErrors.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Tests in 'untitled3.test'.executor&quot;: &quot;Coverage&quot;,
+    &quot;Gradle.untitled3 [:org.example.Main.main()].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;E:/1/szkl/java/untitled3/src/main/java/org/example/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="Gradle.CompanyStatisticsTest.testToStringContainsExpectedInformation">
-    <configuration name="CompanyStatisticsTest.testCompanyStatisticsStoresDataCorrectly" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+}</component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="org.example.model" />
+      <recent name="org.example.service" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.Tests in 'untitled3.test'">
+    <configuration name="ApiServiceTest.testFetchEmployeesFromApi_connectionErrorThrowsApiException" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -74,7 +100,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;model.CompanyStatisticsTest.testCompanyStatisticsStoresDataCorrectly&quot;" />
+            <option value="&quot;org.example.service.ApiServiceTest.testFetchEmployeesFromApi_connectionErrorThrowsApiException&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -85,7 +111,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="CompanyStatisticsTest.testToStringContainsExpectedInformation" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ImportSummaryTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -98,7 +124,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;model.CompanyStatisticsTest.testToStringContainsExpectedInformation&quot;" />
+            <option value="&quot;org.example.model.ImportSummaryTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -109,7 +135,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="EmployeeServiceTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ImportSummaryTest.testToStringWithErrors" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -122,7 +148,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;service.EmployeeServiceTest&quot;" />
+            <option value="&quot;org.example.model.ImportSummaryTest.testToStringWithErrors&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -133,7 +159,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="EmployeeServiceTest.testAddDuplicateEmployeeByEmail" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ImportSummaryTest.testToStringWithNoErrors" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -146,7 +172,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;service.EmployeeServiceTest.testAddDuplicateEmployeeByEmail&quot;" />
+            <option value="&quot;org.example.model.ImportSummaryTest.testToStringWithNoErrors&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -157,7 +183,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="ImportServiceTest.testEmptyFileReturnsError" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="Tests in 'untitled3.test'" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -169,8 +195,6 @@
         <option name="taskNames">
           <list>
             <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;service.ImportServiceTest.testEmptyFileReturnsError&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -183,11 +207,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.CompanyStatisticsTest.testToStringContainsExpectedInformation" />
-        <item itemvalue="Gradle.EmployeeServiceTest.testAddDuplicateEmployeeByEmail" />
-        <item itemvalue="Gradle.CompanyStatisticsTest.testCompanyStatisticsStoresDataCorrectly" />
-        <item itemvalue="Gradle.EmployeeServiceTest" />
-        <item itemvalue="Gradle.ImportServiceTest.testEmptyFileReturnsError" />
+        <item itemvalue="Gradle.Tests in 'untitled3.test'" />
+        <item itemvalue="Gradle.ImportSummaryTest.testToStringWithErrors" />
+        <item itemvalue="Gradle.ImportSummaryTest" />
+        <item itemvalue="Gradle.ImportSummaryTest.testToStringWithNoErrors" />
+        <item itemvalue="Gradle.ApiServiceTest.testFetchEmployeesFromApi_connectionErrorThrowsApiException" />
       </list>
     </recent_temporary>
   </component>
@@ -201,15 +225,7 @@
     </task>
     <servers />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
-          <line>36</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/untitled3$Tests_in__untitled3_test_.ic" NAME="Tests in 'untitled3.test' Coverage Results" MODIFIED="1764014278329" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
   </component>
 </project>
