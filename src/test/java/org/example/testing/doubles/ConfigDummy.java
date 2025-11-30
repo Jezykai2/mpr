@@ -1,9 +1,10 @@
 package org.example.testing.doubles;
 
-// Dummy obiekt – tylko wypełniacz, nieużywany w testach
-public class ConfigDummy {
-    // brak logiki – jeśli ktoś wywoła metodę, rzucamy wyjątek
-    public void unusedMethod() {
-        throw new UnsupportedOperationException("Dummy obiekt – nie powinien być używany");
+import org.example.Interfaces.Logger;
+
+public class ConfigDummy implements Logger {
+    @Override
+    public void log(String message) {
+        // Dummy – nic nie robi
     }
 }

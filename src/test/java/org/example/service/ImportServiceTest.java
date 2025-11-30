@@ -25,67 +25,74 @@ class ImportServiceTest {
 
     @Test
     void testEmptyFileReturnsError() throws IOException {
-        // Tworzymy pusty plik CSV
         Path file = createTempCsv("");
-
-        // Importujemy dane – powinien pojawić się błąd "Plik jest pusty"
         ImportSummary summary = createImportService().importFromCsv(file.toString());
 
-        assertEquals(0, summary.getImportedCount()); // nic nie zaimportowano
-        assertFalse(summary.getErrors().isEmpty());  // lista błędów nie jest pusta
-        assertTrue(summary.getErrors().get(0).contains("Plik jest pusty"));
+        assertAll(
+                () -> assertEquals(0, summary.getImportedCount(), "Nic nie powinno być zaimportowane"),
+                () -> assertFalse(summary.getErrors().isEmpty(), "Lista błędów nie powinna być pusta"),
+                () -> assertTrue(summary.getErrors().get(0).contains("Plik jest pusty"),
+                        "Pierwszy błąd powinien zawierać komunikat o pustym pliku")
+        );
     }
 
     @Test
     void testInvalidLineFormat() throws IOException {
-        // Plik zawiera linię z za małą liczbą pól
         String content = "first,last,email,company,position,salary\n" +
                 "Jan,Kowalski"; // tylko 2 pola zamiast 6
         Path file = createTempCsv(content);
 
-        // Import powinien zgłosić błąd formatu
         ImportSummary summary = createImportService().importFromCsv(file.toString());
-        assertEquals(0, summary.getImportedCount());
-        assertTrue(summary.getErrors().get(0).contains("nieprawidłowa liczba pól"));
+
+        assertAll(
+                () -> assertEquals(0, summary.getImportedCount(), "Nie powinno być importów"),
+                () -> assertTrue(summary.getErrors().get(0).contains("nieprawidłowa liczba pól"),
+                        "Powinien pojawić się błąd o liczbie pól")
+        );
     }
 
     @Test
     void testUnknownPosition() throws IOException {
-        // Plik zawiera nieznane stanowisko "NIEZNANE"
         String content = "first,last,email,company,position,salary\n" +
                 "Jan,Kowalski,jan@example.com,TechCorp,NIEZNANE,10000";
         Path file = createTempCsv(content);
 
-        // Import powinien zgłosić błąd "Nieznane stanowisko"
         ImportSummary summary = createImportService().importFromCsv(file.toString());
-        assertEquals(0, summary.getImportedCount());
-        assertTrue(summary.getErrors().get(0).contains("Nieznane stanowisko"));
+
+        assertAll(
+                () -> assertEquals(0, summary.getImportedCount(), "Nie powinno być importów"),
+                () -> assertTrue(summary.getErrors().get(0).contains("Nieznane stanowisko"),
+                        "Powinien pojawić się błąd o nieznanym stanowisku")
+        );
     }
 
     @Test
     void testInvalidSalary() throws IOException {
-        // Plik zawiera niepoprawną wartość wynagrodzenia ("abc" zamiast liczby)
         String content = "first,last,email,company,position,salary\n" +
                 "Jan,Kowalski,jan@example.com,TechCorp,MANAGER,abc";
         Path file = createTempCsv(content);
 
-        // Import powinien zgłosić błąd "Nieprawidłowe wynagrodzenie"
         ImportSummary summary = createImportService().importFromCsv(file.toString());
-        assertEquals(0, summary.getImportedCount());
-        assertTrue(summary.getErrors().get(0).contains("Nieprawidłowe wynagrodzenie"));
+
+        assertAll(
+                () -> assertEquals(0, summary.getImportedCount(), "Nie powinno być importów"),
+                () -> assertTrue(summary.getErrors().get(0).contains("Nieprawidłowe wynagrodzenie"),
+                        "Powinien pojawić się błąd o wynagrodzeniu")
+        );
     }
 
     @Test
     void testSuccessfulImport() throws IOException {
-        // Plik zawiera dwóch poprawnych pracowników
         String content = "first,last,email,company,position,salary\n" +
                 "Jan,Kowalski,jan@example.com,TechCorp,MANAGER,12000\n" +
                 "Anna,Nowak,anna@example.com,TechCorp,PROGRAMISTA,8000";
         Path file = createTempCsv(content);
 
-        // Import powinien zakończyć się sukcesem – 2 pracowników dodanych, brak błędów
         ImportSummary summary = createImportService().importFromCsv(file.toString());
-        assertEquals(2, summary.getImportedCount());
-        assertTrue(summary.getErrors().isEmpty());
+
+        assertAll(
+                () -> assertEquals(2, summary.getImportedCount(), "Powinno być zaimportowanych dwóch pracowników"),
+                () -> assertTrue(summary.getErrors().isEmpty(), "Lista błędów powinna być pusta")
+        );
     }
 }

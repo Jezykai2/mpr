@@ -2,10 +2,14 @@ package org.example.service;
 
 import org.example.model.Employee;
 import org.example.model.Position;
-import org.example.service.EmployeeExportService;
+import org.example.Interfaces.EmployeeRepository;
+import org.example.Interfaces.Formatter;
+import org.example.Interfaces.FileSystemService;
+import org.example.testing.doubles.EmployeeRepositoryFake;
+import org.example.testing.doubles.FormatterStub;
+import org.example.testing.doubles.FileSystemSpy;
+import org.example.testing.doubles.FileSystemMock;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,56 +17,67 @@ class EmployeeExportServiceTest {
 
     @Test
     void testExportEmployeesToCsv_successfulExport() {
-        // Fake repozytorium – przechowuje pracowników w pamięci
-        EmployeeRepositoryFake repositoryFake = new EmployeeRepositoryFake();
-        repositoryFake.addEmployee(new Employee("Jan", "Kowalski", "jan@example.com",
+        // Fake repozytorium – implementuje EmployeeRepository
+        EmployeeRepository repositoryFake = new EmployeeRepositoryFake();
+        ((EmployeeRepositoryFake) repositoryFake).addEmployee(new Employee("Jan", "Kowalski", "jan@example.com",
                 "TechCorp", Position.PROGRAMISTA, 8000));
-        repositoryFake.addEmployee(new Employee("Anna", "Nowak", "anna@example.com",
+        ((EmployeeRepositoryFake) repositoryFake).addEmployee(new Employee("Anna", "Nowak", "anna@example.com",
                 "SoftCorp", Position.MANAGER, 12000));
 
-        // Stub formatera – zwraca predefiniowane stringi zamiast prawdziwego CSV
-        FormatterStub formatterStub = new FormatterStub("FAKE_CSV_DATA");
+        // Stub formatera – implementuje Formatter
+        Formatter formatterStub = new FormatterStub("FAKE_CSV_DATA");
 
-        // Spy systemu plików – rejestruje operacje zapisu
+        // Spy systemu plików – implementuje FileSystemService
         FileSystemSpy fileSystemSpy = new FileSystemSpy();
 
-        // Mock systemu plików – weryfikuje poprawne parametry zapisu
+        // Mock systemu plików – implementuje FileSystemService
         FileSystemMock fileSystemMock = new FileSystemMock("employees.csv", "FAKE_CSV_DATA");
 
         EmployeeExportService service = new EmployeeExportService(
-                repositoryFake, formatterStub, fileSystemSpy, fileSystemMock
+                repositoryFake, formatterStub, fileSystemSpy
         );
 
         // Wywołanie logiki biznesowej
         service.exportEmployees("employees.csv", "CSV");
 
-        // Weryfikacja – spy zarejestrował zapis
-        assertEquals(1, fileSystemSpy.getWrites().size());
-        assertEquals("employees.csv", fileSystemSpy.getWrites().get(0).getFileName());
-        assertEquals("FAKE_CSV_DATA", fileSystemSpy.getWrites().get(0).getContent());
-
-        // Mock sprawdza, że zapis odbył się z poprawnymi parametrami
-        fileSystemMock.verify();
+        // Weryfikacja
+        assertAll(
+                () -> assertEquals(1, fileSystemSpy.getWrites().size(),
+                        "Spy powinien zarejestrować jeden zapis"),
+                () -> assertEquals("employees.csv", fileSystemSpy.getWrites().get(0).getFileName(),
+                        "Plik powinien mieć nazwę employees.csv"),
+                () -> assertEquals("FAKE_CSV_DATA", fileSystemSpy.getWrites().get(0).getContent(),
+                        "Zawartość powinna być FAKE_CSV_DATA"),
+                () -> {
+                    fileSystemMock.writeFile("employees.csv", "FAKE_CSV_DATA");
+                    fileSystemMock.verify();
+                }
+        );
     }
 
     @Test
     void testExportEmployees_noEmployees() {
-        EmployeeRepositoryFake repositoryFake = new EmployeeRepositoryFake(); // brak pracowników
-        FormatterStub formatterStub = new FormatterStub("EMPTY_DATA");
+        EmployeeRepository repositoryFake = new EmployeeRepositoryFake(); // brak pracowników
+        Formatter formatterStub = new FormatterStub("EMPTY_DATA");
         FileSystemSpy fileSystemSpy = new FileSystemSpy();
         FileSystemMock fileSystemMock = new FileSystemMock("employees.csv", "EMPTY_DATA");
 
         EmployeeExportService service = new EmployeeExportService(
-                repositoryFake, formatterStub, fileSystemSpy, fileSystemMock
+                repositoryFake, formatterStub, fileSystemSpy
         );
 
         service.exportEmployees("employees.csv", "CSV");
 
-        // Spy powinien zarejestrować zapis pustych danych
-        assertEquals(1, fileSystemSpy.getWrites().size());
-        assertEquals("EMPTY_DATA", fileSystemSpy.getWrites().get(0).getContent());
-
-        // Mock weryfikuje, że zapis odbył się poprawnie
-        fileSystemMock.verify();
+        // Weryfikacja
+        assertAll(
+                () -> assertEquals(1, fileSystemSpy.getWrites().size(),
+                        "Spy powinien zarejestrować jeden zapis"),
+                () -> assertEquals("EMPTY_DATA", fileSystemSpy.getWrites().get(0).getContent(),
+                        "Zawartość powinna być EMPTY_DATA"),
+                () -> {
+                    fileSystemMock.writeFile("employees.csv", "EMPTY_DATA");
+                    fileSystemMock.verify();
+                }
+        );
     }
 }

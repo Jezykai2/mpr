@@ -65,6 +65,7 @@
     "Gradle.ImportSummaryTest.executor": "Run",
     "Gradle.ImportSummaryTest.testToStringWithErrors.executor": "Run",
     "Gradle.ImportSummaryTest.testToStringWithNoErrors.executor": "Run",
+    "Gradle.Tests in 'org.example.service'.executor": "Coverage",
     "Gradle.Tests in 'untitled3.test'.executor": "Coverage",
     "Gradle.untitled3 [:org.example.Main.main()].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
@@ -87,31 +88,7 @@
       <recent name="org.example.service" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Tests in 'untitled3.test'">
-    <configuration name="ApiServiceTest.testFetchEmployeesFromApi_connectionErrorThrowsApiException" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;org.example.service.ApiServiceTest.testFetchEmployeesFromApi_connectionErrorThrowsApiException&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Gradle.Tests in 'org.example.service'">
     <configuration name="ImportSummaryTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -184,6 +161,30 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
+    <configuration name="Tests in 'org.example.service'" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;org.example.service.*&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="Tests in 'untitled3.test'" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -208,11 +209,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.Tests in 'org.example.service'" />
         <item itemvalue="Gradle.Tests in 'untitled3.test'" />
         <item itemvalue="Gradle.ImportSummaryTest.testToStringWithErrors" />
         <item itemvalue="Gradle.ImportSummaryTest" />
         <item itemvalue="Gradle.ImportSummaryTest.testToStringWithNoErrors" />
-        <item itemvalue="Gradle.ApiServiceTest.testFetchEmployeesFromApi_connectionErrorThrowsApiException" />
       </list>
     </recent_temporary>
   </component>
@@ -228,5 +229,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/untitled3$Tests_in__untitled3_test_.ic" NAME="Tests in 'untitled3.test' Coverage Results" MODIFIED="1764014278329" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+    <SUITE FILE_PATH="coverage/untitled3$Tests_in__org_example_service_.ic" NAME="Tests in 'org.example.service' Coverage Results" MODIFIED="1764518219355" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
   </component>
 </project>

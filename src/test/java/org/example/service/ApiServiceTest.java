@@ -52,17 +52,19 @@ class ApiServiceTest {
 
     @Test
     void testFetchEmployeesFromApi_realApi() throws Exception {
-        // używamy publicznego API jsonplaceholder jako źródła testowych danych
         String apiUrl = "https://jsonplaceholder.typicode.com/users";
 
         List<Employee> employees = apiService.fetchEmployeesFromApi(apiUrl);
 
-        assertFalse(employees.isEmpty());
         Employee e = employees.get(0);
 
-        assertNotNull(e.getFirstName());
-        assertNotNull(e.getEmail());
-        assertEquals(Position.PROGRAMISTA, e.getPosition());
+        assertAll(
+                () -> assertFalse(employees.isEmpty(), "Lista pracowników nie powinna być pusta"),
+                () -> assertNotNull(e.getFirstName(), "Imię pracownika nie powinno być null"),
+                () -> assertNotNull(e.getEmail(), "Email pracownika nie powinien być null"),
+                () -> assertEquals(Position.PROGRAMISTA, e.getPosition(),
+                        "Pozycja powinna być ustawiona na PROGRAMISTA")
+        );
     }
 
     @Test
@@ -72,22 +74,27 @@ class ApiServiceTest {
         ApiException ex = assertThrows(ApiException.class,
                 () -> apiService.fetchEmployeesFromApi(apiUrl));
 
-        assertTrue(ex.getMessage().contains("Nieoczekiwany kod odpowiedzi HTTP"));
+        assertAll(
+                () -> assertNotNull(ex, "Powinien zostać rzucony ApiException"),
+                () -> assertTrue(ex.getMessage().contains("Nieoczekiwany kod odpowiedzi HTTP"),
+                        "Komunikat powinien zawierać informację o nieoczekiwanym kodzie HTTP")
+        );
     }
 
     @Test
     void testFetchEmployeesFromApi_connectionErrorThrowsApiException() {
         ApiService apiService = new ApiService();
-
         String invalidUrl = "http://invalid.localhost:9999";
 
         ApiException ex = assertThrows(ApiException.class,
                 () -> apiService.fetchEmployeesFromApi(invalidUrl));
 
-        // Wydruk dla debugowania
         System.out.println("Message: " + ex.getMessage());
 
-        // Sprawdzamy tylko prefiks, który na pewno jest w Twoim kodzie
-        assertTrue(ex.getMessage().startsWith("B"));
+        assertAll(
+                () -> assertNotNull(ex, "Powinien zostać rzucony ApiException"),
+                () -> assertTrue(ex.getMessage().startsWith("B"),
+                        "Komunikat powinien zaczynać się od litery B")
+        );
     }
 }

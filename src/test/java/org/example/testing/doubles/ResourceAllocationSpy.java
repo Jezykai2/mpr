@@ -1,9 +1,10 @@
 package org.example.testing.doubles;
 
+import org.example.Interfaces.ResourceAllocationService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResourceAllocationSpy {
+public class ResourceAllocationSpy implements ResourceAllocationService {
     public static class Assignment {
         private final String taskId;
         private final String employeeEmail;
@@ -19,6 +20,7 @@ public class ResourceAllocationSpy {
 
     private final List<Assignment> assignments = new ArrayList<>();
 
+    @Override
     public void recordAssignment(String taskId, String employeeEmail) {
         assignments.add(new Assignment(taskId, employeeEmail));
     }

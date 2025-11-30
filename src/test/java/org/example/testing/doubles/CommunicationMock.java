@@ -1,6 +1,8 @@
 package org.example.testing.doubles;
 
-public class CommunicationMock {
+import org.example.Interfaces.CommunicationService;
+
+public class CommunicationMock implements CommunicationService {
     private final int expectedCalls;
     private int actualCalls = 0;
 
@@ -8,6 +10,7 @@ public class CommunicationMock {
         this.expectedCalls = expectedCalls;
     }
 
+    @Override
     public void sendReminder(String email, String message) {
         actualCalls++;
     }

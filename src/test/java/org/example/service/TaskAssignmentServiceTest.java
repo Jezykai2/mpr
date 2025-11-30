@@ -2,6 +2,14 @@ package org.example.service;
 
 import org.example.model.Employee;
 import org.example.model.Position;
+import org.example.Interfaces.CalendarService;
+import org.example.Interfaces.CompetenceRepository;
+import org.example.Interfaces.ResourceAllocationService;
+import org.example.Interfaces.Logger;
+import org.example.testing.doubles.CalendarStub;
+import org.example.testing.doubles.CompetenceFake;
+import org.example.testing.doubles.ResourceAllocationSpy;
+import org.example.testing.doubles.ConfigDummy;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -12,22 +20,22 @@ class TaskAssignmentServiceTest {
 
     @Test
     void testAssignTask_findsFirstAvailableWithSkills() {
-        // Stub kalendarza – zwraca predefiniowaną listę dostępnych pracowników
-        CalendarStub calendarStub = new CalendarStub(List.of(
+        // Stub kalendarza – implementuje CalendarService
+        CalendarService calendarStub = new CalendarStub(List.of(
                 new Employee("Jan", "Kowalski", "jan@example.com", "TechCorp", Position.PROGRAMISTA, 8000),
                 new Employee("Anna", "Nowak", "anna@example.com", "SoftCorp", Position.MANAGER, 12000)
         ));
 
-        // Fake repozytorium kompetencji – działa w pamięci
-        CompetenceFake competenceFake = new CompetenceFake();
-        competenceFake.addCompetence("jan@example.com", "Java");
-        competenceFake.addCompetence("anna@example.com", "Excel");
+        // Fake repozytorium kompetencji – implementuje CompetenceRepository
+        CompetenceRepository competenceFake = new CompetenceFake();
+        ((CompetenceFake) competenceFake).addCompetence("jan@example.com", "Java");
+        ((CompetenceFake) competenceFake).addCompetence("anna@example.com", "Excel");
 
-        // Spy rejestracji przydziałów – zapisuje wszystkie przydzielenia
-        ResourceAllocationSpy allocationSpy = new ResourceAllocationSpy();
+        // Spy rejestracji przydziałów – implementuje ResourceAllocationService
+        ResourceAllocationService allocationSpy = new ResourceAllocationSpy();
 
-        // Dummy konfiguracja – przekazywana do konstruktora, ale nieużywana
-        ConfigDummy configDummy = new ConfigDummy();
+        // Dummy logger – implementuje Logger
+        Logger configDummy = new ConfigDummy();
 
         TaskAssignmentService service = new TaskAssignmentService(
                 calendarStub, competenceFake, allocationSpy, configDummy
@@ -37,19 +45,24 @@ class TaskAssignmentServiceTest {
         boolean assigned = service.assignTask("TASK-123", List.of("Java"), 10);
 
         // Weryfikacja
-        assertTrue(assigned);
-        assertEquals(1, allocationSpy.getAssignments().size());
-        assertEquals("jan@example.com", allocationSpy.getAssignments().get(0).getEmployeeEmail());
+        assertAll(
+                () -> assertTrue(assigned, "Pracownik powinien zostać przydzielony"),
+                () -> assertEquals(1, ((ResourceAllocationSpy) allocationSpy).getAssignments().size(),
+                        "Powinna być dokładnie jedna alokacja"),
+                () -> assertEquals("jan@example.com",
+                        ((ResourceAllocationSpy) allocationSpy).getAssignments().get(0).getEmployeeEmail(),
+                        "Przydzielony powinien być Jan Kowalski")
+        );
     }
 
     @Test
     void testAssignTask_noEmployeeWithRequiredSkill() {
-        CalendarStub calendarStub = new CalendarStub(List.of(
+        CalendarService calendarStub = new CalendarStub(List.of(
                 new Employee("Jan", "Kowalski", "jan@example.com", "TechCorp", Position.PROGRAMISTA, 8000)
         ));
-        CompetenceFake competenceFake = new CompetenceFake(); // brak kompetencji
-        ResourceAllocationSpy allocationSpy = new ResourceAllocationSpy();
-        ConfigDummy configDummy = new ConfigDummy();
+        CompetenceRepository competenceFake = new CompetenceFake(); // brak kompetencji
+        ResourceAllocationService allocationSpy = new ResourceAllocationSpy();
+        Logger configDummy = new ConfigDummy();
 
         TaskAssignmentService service = new TaskAssignmentService(
                 calendarStub, competenceFake, allocationSpy, configDummy
@@ -57,7 +70,11 @@ class TaskAssignmentServiceTest {
 
         boolean assigned = service.assignTask("TASK-999", List.of("Python"), 5);
 
-        assertFalse(assigned);
-        assertTrue(allocationSpy.getAssignments().isEmpty());
+        // Weryfikacja
+        assertAll(
+                () -> assertFalse(assigned, "Nie powinno być przydziału"),
+                () -> assertTrue(((ResourceAllocationSpy) allocationSpy).getAssignments().isEmpty(),
+                        "Lista przydziałów powinna być pusta")
+        );
     }
 }
