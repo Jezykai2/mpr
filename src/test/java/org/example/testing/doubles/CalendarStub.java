@@ -1,17 +1,18 @@
 package org.example.testing.doubles;
 
+import org.example.Interfaces.CalendarService;
 import org.example.model.Employee;
 import java.util.List;
 
-// Stub – zwraca predefiniowaną listę dostępnych pracowników
-public class CalendarStub {
-    private final List<Employee> availableEmployees;
+public class CalendarStub implements CalendarService {
+    private final List<Employee> employees;
 
-    public CalendarStub(List<Employee> availableEmployees) {
-        this.availableEmployees = availableEmployees;
+    public CalendarStub(List<Employee> employees) {
+        this.employees = employees;
     }
 
+    @Override
     public List<Employee> getAvailableEmployees() {
-        return availableEmployees;
+        return employees;
     }
 }
